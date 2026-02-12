@@ -2,6 +2,25 @@
 
 A shared recommendations hub where friends can collect and share the stuff they're hyped about.
 
+## 🚀 Live Deployment
+
+The application is deployed and accessible at: **https://hypeshelf-two.vercel.app/dashboard**
+
+**GitHub Repository:** https://github.com/aliahmad135/hypeshelf
+
+## 🔐 Admin Access
+
+To access the admin view with elevated permissions, use the following credentials:
+
+- **Email:** mianali1027@gmail.com
+- **Password:** 123Graphics()()
+
+**Admin Permissions:**
+- Can delete any recommendation (not just their own)
+- Can mark recommendations as "Staff Pick"
+
+**Note:** All other users who sign up through the application will automatically be assigned the "user" role with standard permissions.
+
 ## Tech Stack
 
 - Next.js 14+ (App Router)
@@ -88,6 +107,8 @@ You'll need:
    ```
    
    The Convex URL should already be there from step 4. Just add your Clerk keys.
+   
+   **Note:** A `.env.local` file has been provided with the project for local development.
 
 6. **Run the app:**
    
