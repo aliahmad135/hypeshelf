@@ -9,7 +9,7 @@ export default function PublicPage() {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">HypeShelf</h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Collect and share the stuff you're hyped about.
+              Collect and share the stuff you&apos;re hyped about.
             </p>
             <PublicSignInButton />
           </div>

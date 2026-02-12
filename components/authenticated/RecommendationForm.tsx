@@ -78,7 +78,7 @@ export function RecommendationForm() {
       <CardHeader>
         <CardTitle>Add a Recommendation</CardTitle>
         <CardDescription>
-          Share something you're hyped about with your friends
+          Share something you&apos;re hyped about with your friends
         </CardDescription>
       </CardHeader>
       <CardContent>
