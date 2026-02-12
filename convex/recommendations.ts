@@ -40,6 +40,7 @@ export const list = query({
             ? {
                 _id: user._id,
                 clerkId: user.clerkId,
+                name: user.name,
                 role: user.role,
               }
             : null,
@@ -85,6 +86,7 @@ export const getStaffPicks = query({
             ? {
                 _id: user._id,
                 clerkId: user.clerkId,
+                name: user.name,
                 role: user.role,
               }
             : null,

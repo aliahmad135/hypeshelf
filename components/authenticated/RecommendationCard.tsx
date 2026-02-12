@@ -25,6 +25,7 @@ interface RecommendationCardProps {
     user: {
       _id: Id<"users">
       clerkId: string
+      name?: string
       role: string
     } | null
   }
@@ -68,73 +69,88 @@ export function RecommendationCard({ recommendation, currentUserId }: Recommenda
   }
 
   return (
-    <Card className="flex flex-col">
-      {recommendation.isStaffPick && (
-        <div className="flex items-center gap-1 px-6 pt-6 pb-2">
-          <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-          <span className="text-xs font-semibold text-yellow-600 dark:text-yellow-400">
-            Staff Pick
-          </span>
-        </div>
-      )}
-      <CardHeader>
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <CardTitle className="line-clamp-2">{recommendation.title}</CardTitle>
-            <CardDescription className="mt-2">
-              <Badge variant="outline" className={GENRE_COLORS[recommendation.genre as keyof typeof GENRE_COLORS]}>
+    <Card className="flex flex-col group relative overflow-hidden border-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="relative z-10">
+        {recommendation.isStaffPick && (
+          <div className="flex items-center gap-2 px-6 pt-5 pb-3 bg-gradient-to-r from-yellow-400/20 to-amber-400/20 backdrop-blur-sm border-b border-yellow-400/30">
+            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 drop-shadow-sm" />
+            <span className="text-xs font-bold text-yellow-700 dark:text-yellow-300">
+              Staff Pick
+            </span>
+          </div>
+        )}
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <CardTitle className="line-clamp-2 text-lg mb-3 font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                {recommendation.title}
+              </CardTitle>
+              <Badge 
+                variant="outline" 
+                className={`${GENRE_COLORS[recommendation.genre as keyof typeof GENRE_COLORS]} text-xs border-2 backdrop-blur-sm bg-white/50 dark:bg-gray-800/50`}
+              >
                 {GENRE_LABELS[recommendation.genre as keyof typeof GENRE_LABELS]}
               </Badge>
-            </CardDescription>
+            </div>
+            {canDelete && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="flex-shrink-0 hover:bg-red-500/20 dark:hover:bg-red-500/30 rounded-full transition-all"
+              >
+                <Trash2 className="h-4 w-4 text-red-500" />
+              </Button>
+            )}
           </div>
-          {canDelete && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleDelete}
-              disabled={isDeleting}
-              className="ml-2"
-            >
-              <Trash2 className="h-4 w-4 text-destructive" />
-            </Button>
-          )}
-        </div>
-      </CardHeader>
-      <CardContent className="flex-1 flex flex-col">
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-3 flex-1">
-          {recommendation.blurb}
-        </p>
-        <div className="flex items-center justify-between">
-          <Link
-            href={recommendation.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-          >
-            View <ExternalLink className="h-3 w-3" />
-          </Link>
-          {isAdmin && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleToggleStaffPick}
-              disabled={isToggling}
-              className="text-xs"
-            >
-              {isToggling
-                ? "Updating..."
-                : recommendation.isStaffPick
-                ? "Remove Staff Pick"
-                : "Mark as Staff Pick"}
-            </Button>
-          )}
-        </div>
-        {recommendation.user && (
-          <p className="text-xs text-muted-foreground mt-2">
-            Added by {recommendation.user.role === "admin" ? "Admin" : "User"}
+        </CardHeader>
+        <CardContent className="flex-1 flex flex-col pt-0">
+          <p className="text-sm text-foreground/80 mb-4 line-clamp-3 flex-1 leading-relaxed">
+            {recommendation.blurb}
           </p>
-        )}
-      </CardContent>
+          <div className="flex items-center justify-between mb-3">
+            <Link
+              href={recommendation.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent hover:from-purple-600 hover:to-pink-600 transition-all"
+            >
+              View <ExternalLink className="h-3.5 w-3.5" />
+            </Link>
+            {isAdmin && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleToggleStaffPick}
+                disabled={isToggling}
+                className="text-xs h-7 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white/70 dark:hover:bg-gray-800/70"
+              >
+                {isToggling
+                  ? "Updating..."
+                  : recommendation.isStaffPick
+                  ? "Remove Staff Pick"
+                  : "Mark as Staff Pick"}
+              </Button>
+            )}
+          </div>
+          {recommendation.user && (
+            <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/20 dark:border-gray-700/50">
+              <div className="flex items-center gap-2">
+                <div className="h-7 w-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-xs font-bold shadow-md">
+                  {recommendation.user.role === "admin" ? "H" : recommendation.user.name?.[0]?.toUpperCase() || "U"}
+                </div>
+                <p className="text-xs font-medium text-foreground/70">
+                  {recommendation.user.role === "admin" 
+                    ? "HypeShelf team" 
+                    : recommendation.user.name || "User"}
+                </p>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </div>
     </Card>
   )
 }

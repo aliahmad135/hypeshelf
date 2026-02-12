@@ -6,11 +6,11 @@ import { ArrowLeft } from "lucide-react"
 
 export default function AddPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <Link href="/dashboard">
-            <Button variant="ghost">
+            <Button variant="ghost" className="rounded-full bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/70 dark:hover:bg-gray-800/70">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Dashboard
             </Button>

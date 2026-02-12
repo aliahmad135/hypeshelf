@@ -74,17 +74,19 @@ export function RecommendationForm() {
   }
 
   return (
-    <Card className="max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle>Add a Recommendation</CardTitle>
-        <CardDescription>
+    <Card className="max-w-2xl mx-auto border-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl shadow-2xl rounded-2xl overflow-hidden">
+      <CardHeader className="bg-gradient-to-r from-purple-500/20 via-pink-500/20 to-blue-500/20 backdrop-blur-sm border-b border-white/20 dark:border-gray-700/50">
+        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          Add a Recommendation
+        </CardTitle>
+        <CardDescription className="text-base mt-2 text-foreground/70">
           Share something you&apos;re hyped about with your friends
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <CardContent className="pt-6">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="title" className="block text-sm font-medium mb-2">
+            <label htmlFor="title" className="block text-sm font-semibold mb-2 text-foreground/90">
               Title *
             </label>
             <Input
@@ -92,21 +94,22 @@ export function RecommendationForm() {
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="Enter the title"
-              className={errors.title ? "border-destructive" : ""}
+              className={`rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-2 ${errors.title ? "border-red-500" : "border-white/20 dark:border-gray-700/50"} focus:border-purple-500 transition-colors`}
             />
             {errors.title && (
-              <p className="text-sm text-destructive mt-1">{errors.title}</p>
+              <p className="text-sm text-red-500 mt-1 font-medium">{errors.title}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="genre" className="block text-sm font-medium mb-2">
+            <label htmlFor="genre" className="block text-sm font-semibold mb-2 text-foreground/90">
               Genre *
             </label>
             <Select
               id="genre"
               value={formData.genre}
               onChange={(e) => setFormData({ ...formData, genre: e.target.value as Genre })}
+              className="rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-2 border-white/20 dark:border-gray-700/50 focus:border-purple-500"
             >
               {GENRES.map((genre) => (
                 <option key={genre} value={genre}>
@@ -117,7 +120,7 @@ export function RecommendationForm() {
           </div>
 
           <div>
-            <label htmlFor="link" className="block text-sm font-medium mb-2">
+            <label htmlFor="link" className="block text-sm font-semibold mb-2 text-foreground/90">
               Link *
             </label>
             <Input
@@ -126,15 +129,15 @@ export function RecommendationForm() {
               value={formData.link}
               onChange={(e) => setFormData({ ...formData, link: e.target.value })}
               placeholder="https://example.com"
-              className={errors.link ? "border-destructive" : ""}
+              className={`rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-2 ${errors.link ? "border-red-500" : "border-white/20 dark:border-gray-700/50"} focus:border-purple-500 transition-colors`}
             />
             {errors.link && (
-              <p className="text-sm text-destructive mt-1">{errors.link}</p>
+              <p className="text-sm text-red-500 mt-1 font-medium">{errors.link}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="blurb" className="block text-sm font-medium mb-2">
+            <label htmlFor="blurb" className="block text-sm font-semibold mb-2 text-foreground/90">
               Blurb *
             </label>
             <Textarea
@@ -143,21 +146,26 @@ export function RecommendationForm() {
               onChange={(e) => setFormData({ ...formData, blurb: e.target.value })}
               placeholder="Why are you hyped about this?"
               rows={4}
-              className={errors.blurb ? "border-destructive" : ""}
+              className={`rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-2 ${errors.blurb ? "border-red-500" : "border-white/20 dark:border-gray-700/50"} focus:border-purple-500 transition-colors resize-none`}
             />
             {errors.blurb && (
-              <p className="text-sm text-destructive mt-1">{errors.blurb}</p>
+              <p className="text-sm text-red-500 mt-1 font-medium">{errors.blurb}</p>
             )}
           </div>
 
-          <div className="flex gap-4">
-            <Button type="submit" disabled={isSubmitting}>
+          <div className="flex gap-4 pt-2">
+            <Button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full px-6 shadow-lg hover:shadow-xl transition-all"
+            >
               {isSubmitting ? "Adding..." : "Add Recommendation"}
             </Button>
             <Button
               type="button"
               variant="outline"
               onClick={() => router.push("/dashboard")}
+              className="rounded-full bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-2 border-white/20 dark:border-gray-700/50 hover:bg-white/70 dark:hover:bg-gray-800/70"
             >
               Cancel
             </Button>

@@ -15,7 +15,13 @@ export const syncUser = mutation({
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
       .first()
 
+    const name = identity.name || identity.email?.split("@")[0] || "User"
+    const email = identity.email || undefined
+
     if (existingUser) {
+      if (!existingUser.name || existingUser.name !== name) {
+        await ctx.db.patch(existingUser._id, { name, email })
+      }
       return existingUser._id
     }
 
@@ -24,6 +30,8 @@ export const syncUser = mutation({
 
     const userId = await ctx.db.insert("users", {
       clerkId: identity.subject,
+      name,
+      email,
       role,
       createdAt: Date.now(),
     })
